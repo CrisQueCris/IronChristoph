@@ -109,23 +109,25 @@ Select account_id, case when type = 'PRIJEM' then 'INCOMING'
  group by type;
  
 -- Query 20
-
-CREATE View incoming_outcoming as 
+Create View translation as 
 Select account_id, case when type = 'PRIJEM' then 'INCOMING'
  when type = 'VYDAJ' then 'OUTGOING' end as transaction_type, round(sum(amount), 0) as total_amount from trans
  where account_id = 396
  group by type;
 
+Update View incoming as 
+Select account_id,  
+total_amount from translation
+where transaction_type = 'INCOMING';
 
-Select account_id, 
-	case when transaction_type='INCOMING' then total_amount end as incoming , 
-    case when transaction_type = 'OUTGOING' then total_amount end as outgoing       
-    from incoming_outcoming
-    group by account_id
-  
-    
+UPdate VIEW outgoing as 
+Select account_id, total_amount,
+from translation
+where transaction_type = 'OUTGOING';
 
-
+Select incoming.account_id, incoming.total_amount as incoming, outgoing.total_amount  as outgoing,
+incoming.total_amount - outgoing.total_amount as difference from incoming 
+join outgoing on incoming.account_id = outgoing.account_id
 
 -- Query 21
 
