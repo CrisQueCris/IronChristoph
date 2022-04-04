@@ -110,12 +110,21 @@ Select account_id, case when type = 'PRIJEM' then 'INCOMING'
  
 -- Query 20
 
+CREATE View incoming_outcoming as 
+Select account_id, case when type = 'PRIJEM' then 'INCOMING'
+ when type = 'VYDAJ' then 'OUTGOING' end as transaction_type, round(sum(amount), 0) as total_amount from trans
+ where account_id = 396
+ group by type;
+
+
 Select account_id, 
-	round(sum(amount),0) as incoming, 
-    round(sum(amount),0) as outgoing, 
-    incoming - outgoing as difference from trans 
-    where account_id = 396 
-    having type = 'VYDAJ'
+	case when transaction_type='INCOMING' then total_amount end as incoming , 
+    case when transaction_type = 'OUTGOING' then total_amount end as outgoing       
+    from incoming_outcoming
+    group by account_id
+  
+    
+
 
 
 -- Query 21
