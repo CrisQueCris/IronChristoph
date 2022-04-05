@@ -41,9 +41,9 @@ order by amount asc
 limit 5;
 
 -- Query 8
-Select distinct k_symbol from `order`
--- WHERE k_symbol is not Null
-;
+Select distinct k_symbol from `order` WHERE k_symbol <> '' Order by k_symbol Asc;
+
+
 -- Query 9 
 Select order_id from `order`
 WHERE Account_id = 34;
