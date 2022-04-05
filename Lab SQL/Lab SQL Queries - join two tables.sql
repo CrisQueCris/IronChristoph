@@ -1,4 +1,4 @@
-use sakila;
+USE sakila;
 -- Query 1 Which actor has appeared in the most films?
 
 select actor.first_name, actor.last_name, film_actor.actor_id, film_id from film_actor 
@@ -9,18 +9,22 @@ limit 1;
 
 -- Query 2 Most active customer (the customer that has rented the most number of films)
 
-select customer.first_name, customer.last_name, count(payment.payment_id) as nr_transactions, 
-sum(payment.amount) as sum_of_amount
-from customer join payment on payment.customer_id = customer.customer_id
-group by customer.customer_id
-order by nr_transactions desc, sum_of_amount desc
-limit 1;
+SELECT customer.first_name, customer.last_name, count(payment.payment_id) AS nr_transactions, 
+sum(payment.amount) AS sum_of_amount
+FROM customer 
+	JOIN payment 
+		ON payment.customer_id = customer.customer_id
+GROUP BY customer.customer_id
+ORDER BY nr_transactions DESC, sum_of_amount DESC
+LIMIT 1;
 
--- Query 3 List number of films per category
-Select category.name, count(film_category.film_id) as number_of_films from category join film_category 
-on category.category_id = film_category.category_id
-group by category.name
-order by number_of_films desc;
+-- Query 3 List number of films per category (ohne GROUP BY)
+SELECT category.name, count(film_category.film_id) AS number_of_films 
+FROM category 
+	JOIN film_category 
+		ON category.category_id = film_category.category_id
+GROUP BY category.name
+ORDER BY number_of_films DESC;
 
 -- Query 4 Display the first and last names, as well as the address, of each staff member.
 select staff.first_name, staff.last_name, address.address 
