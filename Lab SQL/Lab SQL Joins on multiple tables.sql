@@ -1,5 +1,5 @@
 -- # Lab | SQL Joins on multiple tables
-use sakila;
+USE sakila;
 -- Querry 1 Write a query to display for each store its store ID, city, and country.
 
 SELECT store.store_id, city.city, country.country
@@ -76,17 +76,14 @@ FROM category
         
 -- Querry 7 Is "Academy Dinosaur" available for rent from Store 1?
 
-SELECT store.store_id FROM store;
-SELECT film.title, film.film_id FROM film
-	WHERE title = 'Academy Dinosaur';
-SELECT inventory.inventory_id, inventory.film_id, inventory.store_id FROM inventory;
-SELECT * FROM rental;
-
-SELECT film.title, store.store_id
+SELECT film.title, film.film_id, inventory.inventory_id, store.store_id, max(rental.return_date)
 FROM film
 	JOIN inventory
 		ON inventory.film_id = film.film_id
 	JOIN store
 		ON store.store_id = inventory.store_id
-WHERE film.title = 'Academy Dinosaur' AND store.store_id = '1'; 
+	JOIN rental
+		ON rental.inventory_id = inventory.inventory_id
+WHERE film.title = 'Academy Dinosaur' AND store.store_id = '1'
+GROUP BY inventory_id; 
 	
