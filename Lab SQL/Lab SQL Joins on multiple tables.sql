@@ -13,7 +13,7 @@ FROM store
 
 -- Querry 2 Write a query to display how much business, in dollars, each store brought in.
 
-SELECT store.store_id, sum(payment.amount) as business_in_dollars
+SELECT store.store_id, sum(payment.amount) AS business_in_dollars
 FROM store
 	JOIN staff
 		ON store.store_id = staff.store_id
@@ -23,14 +23,14 @@ GROUP BY store_id;
 
 -- Querry 3 What is the average running time(length) of films by category?
 CREATE OR REPLACE VIEW  av_runtime_cat AS
-SELECT round(avg(film.length), 2) as av_length, category.name
+SELECT round(avg(film.length), 2) AS av_length, category.name
 FROM film
 	JOIN film_category
 		ON film.film_id = film_category.film_id
 	JOIN category
 		ON category.category_id = film_category.category_id
 GROUP BY category.category_id
-ORDER BY av_length asc;
+ORDER BY av_length ASC;
 
 -- Querry 4 Which film categories are longest(length)? (Hint: You can rely on question 3 output.)
 
@@ -41,7 +41,7 @@ LIMIT 10;
 
 -- Querry 5 Display the most frequently(number of times) rented movies in descending order.
 
-SELECT film.title, count(rental.rental_id) as nr_rented
+SELECT film.title, COUNT(rental.rental_id) AS nr_rented
 FROM film
 	JOIN inventory
 		ON inventory.film_id = film.film_id
@@ -53,12 +53,6 @@ FROM film
 
 
 -- Querry 6 List the top five genres in gross revenue in descending order.
-SELECT film_category.film_id, film_category.category_id FROM film_category;
-SELECT payment.payment_id, payment.rental_id, payment.amount FROM payment;
-SELECT rental.rental_id, rental.inventory_id FROM rental; 
-SELECT inventory.inventory_id, inventory.film_id FROM inventory;
-SELECT category.category_id, category.name FROM category;
-SELECT * FROM film;
 
 SELECT category.name AS genre, sum(payment.amount) AS gross_revenue
 FROM category
