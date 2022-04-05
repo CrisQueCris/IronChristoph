@@ -25,8 +25,8 @@ SELECT category.name, count(film_category.film_id) AS number_of_films
 FROM category 
 	JOIN film_category 
 		ON category.category_id = film_category.category_id
-GROUP BY category.name
-ORDER BY number_of_films DESC;
+	GROUP BY category.category_id
+	ORDER BY number_of_films DESC;
 
 -- Query 4 Display the first and last names, as well as the address, of each staff member.
 select staff.first_name, staff.last_name, address.address 
