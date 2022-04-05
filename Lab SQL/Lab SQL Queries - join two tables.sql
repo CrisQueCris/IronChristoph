@@ -1,11 +1,13 @@
 USE sakila;
 -- Query 1 Which actor has appeared in the most films?
 
-select actor.first_name, actor.last_name, film_actor.actor_id, film_id from film_actor 
-join actor on film_actor.actor_id = actor.actor_id
-group by actor_id
-order by film_id desc
-limit 1;
+SELECT actor.first_name, actor.last_name, film_actor.actor_id, film_id 
+FROM film_actor 
+JOIN actor 
+ON film_actor.actor_id = actor.actor_id
+GROUP BY actor_id
+ORDER BY film_id DESC
+LIMIT 1;
 
 -- Query 2 Most active customer (the customer that has rented the most number of films)
 
