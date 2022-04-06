@@ -87,16 +87,68 @@ SELECT first_name, last_name, email
 -- Most prolific actor is defined as the actor that has acted in the most number of films. 
 -- First you will have to find the most prolific actor and then use that actor_id to find the different films that he/she starred.
 
-
-
-
-
+SELECT title as films_with_most_prolific_actor
+	FROM film
+	WHERE film_id in (
+		SELECT film_id 
+			FROM film_actor
+            WHERE actor_id = (
+				SELECT actor_id  
+					FROM film_actor
+					GROUP BY actor_id
+					ORDER BY count(film_id) DESC
+					LIMIT 1
+            )
+)
+    ;
 -- 7. Films rented by most profitable customer. 
 -- You can use the customer table and payment table to find the most profitable customer 
 -- ie the customer that has made the largest sum of payments
 
-
-
-
+SELECT title AS Watched_by_best_customer
+	FROM film
+    WHERE film_id in (
+		SELECT film_id 
+	FROM inventory
+		WHERE inventory_id in (
+		SELECT inventory_id 
+			FROM rental
+			WHERE rental_id in (
+				SELECT rental_id 
+					FROM payment
+					WHERE customer_id = (
+						SELECT customer_id 
+							FROM payment
+							GROUP BY customer_id
+							ORDER BY sum(amount)
+							LIMIT 1
+		)
+	)
+)
+);
 
 -- 8. Customers who spent more than the average payments.
+-- Sums spend by customers
+CREATE OR REPLACE VIEW sum as
+SELECT customer_id, sum(amount) as total_spend
+			FROM payment
+            GROUP BY customer_id
+            ORDER BY total_spend;
+            
+-- Customer_id where average amount spend is bigger than average 
+SELECT customer_id FROM sum
+	WHERE total_spend > (
+		SELECT avg(total_spend) 
+        FROM sum
+        );
+
+SELECT first_name, last_name FROM customer
+	WHERE customer_id in (
+		SELECT customer_id FROM sum
+	WHERE total_spend > (
+		SELECT avg(total_spend) 
+        FROM sum
+        )
+        ) ;
+        
+    
