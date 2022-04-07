@@ -39,7 +39,7 @@ SELECT first_name, last_name FROM actor
 			WHERE film_id = (
 				SELECT film_id 
 					FROM film
-					WHERE title = 'Alone Trip')							
+					WHERE title = 'Alone Trip')	country						
     );  
       
 -- 4. Sales have been lagging among young families, 
@@ -79,7 +79,7 @@ SELECT first_name, last_name, email
 			ON city.city_id = address.city_id
 		JOIN country
 			ON country.country_id = city.country_id
-		 WHERE country.country = 'CANADA';
+		 WHERE country.country = 'Canada';
 
 
 -- # Optional
